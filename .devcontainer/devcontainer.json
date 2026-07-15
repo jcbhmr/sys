@@ -1,0 +1,16 @@
+{
+    "image": "mcr.microsoft.com/devcontainers/go",
+    // "updateContentCommand": {
+    //     "install-wasmtime": "curl https://wasmtime.dev/install.sh -sSf | bash",
+    //     "install-tinygo": "./.devcontainer/install-tinygo.bash",
+    //     "install-wkg": "./.devcontainer/install-wkg.bash"
+    // },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "bytecodealliance.wit-idl",
+                "tinygo.vscode-tinygo"
+            ]
+        }
+    }
+}
