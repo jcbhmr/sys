@@ -1,8 +1,5 @@
 {
     "image": "mcr.microsoft.com/devcontainers/go",
-    "features": {
-        "ghcr.io/devcontainers/features/rust": {}
-    },
     "updateContentCommand": {
         "install-wasmtime": "curl https://wasmtime.dev/install.sh -sSf | bash",
         "install-tinygo": "./.devcontainer/install-tinygo.bash",

@@ -1,5 +1,0 @@
-{
-    "rust-analyzer.linkedProjects": [
-        "wasip1/generate/Cargo.toml"
-    ]
-}

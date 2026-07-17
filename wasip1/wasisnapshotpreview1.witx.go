@@ -2,63 +2,65 @@
 
 package wasip1
 
-// Read command-line argument data.
-// 
-// The size of the array should match that returned by `args_sizes_get`.
-// 
-// Each argument is expected to be `\0` terminated.
-// 
-// The first argument should be a string containing the "name" of the
-// program. This need not be a usable filesystem path or even file name,
-// and may even be a fixed string. Subsequent arguments are the arguments
-// passed to the program by the user.
-func ArgsGet(argv **uint8, argvBuf *uint8) (Errno) {
+func ArgsGet(argv **uint8, argvBuf *uint8) Errno {
+	return wasmimport_args_get(argv, argvBuf)
 }
 
-// Return command-line argument data sizes.
-func ArgsSizesGet() (RECORD, Errno) {
+func ArgsSizesGet() (r0 Size, r1 Size, errno Errno) {
+	errno = wasmimport_args_sizes_get(&r0, &r1)
+	if errno != 0 {
+		r0 = 0
+		r1 = 0
+	}
+	return r0, r1, errno
 }
 
-// Read environment variable data.
-// The sizes of the buffers should match that returned by `environ_sizes_get`.
-// Key/value pairs are expected to be joined with `=`s, and terminated with `\0`s.
-func EnvironGet(environ **uint8, environBuf *uint8) (Errno) {
+func EnvironGet(environ **uint8, environBuf *uint8) Errno {
+	return wasmimport_environ_get(environ, environBuf)
 }
 
-// Return environment variable data sizes.
-func EnvironSizesGet() (RECORD, Errno) {
+func EnvironSizesGet() (r0 Size, r1 Size, errno Errno) {
+	errno = wasmimport_environ_sizes_get(&r0, &r1)
+	if errno != 0 {
+		r0 = 0
+		r1 = 0
+	}
+	return r0, r1, errno
 }
 
-// Return the resolution of a clock.
-// Implementations are required to provide a non-zero value for supported clocks. For unsupported clocks,
-// return `errno::inval`.
-// Note: This is similar to `clock_getres` in POSIX.
-func ClockResGet(id Clockid) (Timestamp, Errno) {
+func ClockResGet(id Clockid) (r0 Timestamp, errno Errno) {
+	errno = wasmimport_clock_res_get(id, &r0)
+	if errno != 0 {
+		r0 = 0
+	}
+	return r0, errno
 }
 
-// Return the time value of a clock.
-// Note: This is similar to `clock_gettime` in POSIX.
-func ClockTimeGet(id Clockid, precision Timestamp) (Timestamp, Errno) {
+func ClockTimeGet(id Clockid, precision Timestamp) (r0 Timestamp, errno Errno) {
+	errno = wasmimport_clock_time_get(id, precision, &r0)
+	if errno != 0 {
+		r0 = 0
+	}
+	return r0, errno
 }
 
-// Provide file advisory information on a file descriptor.
-// Note: This is similar to `posix_fadvise` in POSIX.
-func FdAdvise(fd Fd, offset Filesize, len Filesize, advice Advice) (Errno) {
+func FdAdvise(fd Fd, offset Filesize, len Filesize, advice Advice) Errno {
+	return wasmimport_fd_advise(fd, offset, len, advice)
 }
 
 // Force the allocation of space in a file.
 // Note: This is similar to `posix_fallocate` in POSIX.
-func FdAllocate(fd Fd, offset Filesize, len Filesize) (Errno) {
+func FdAllocate(fd Fd, offset Filesize, len Filesize) Errno {
 }
 
 // Close a file descriptor.
 // Note: This is similar to `close` in POSIX.
-func FdClose(fd Fd) (Errno) {
+func FdClose(fd Fd) Errno {
 }
 
 // Synchronize the data of a file to disk.
 // Note: This is similar to `fdatasync` in POSIX.
-func FdDatasync(fd Fd) (Errno) {
+func FdDatasync(fd Fd) Errno {
 }
 
 // Get the attributes of a file descriptor.
@@ -68,12 +70,12 @@ func FdFdstatGet(fd Fd) (Fdstat, Errno) {
 
 // Adjust the flags associated with a file descriptor.
 // Note: This is similar to `fcntl(fd, F_SETFL, flags)` in POSIX.
-func FdFdstatSetFlags(fd Fd, flags Fdflags) (Errno) {
+func FdFdstatSetFlags(fd Fd, flags Fdflags) Errno {
 }
 
 // Adjust the rights associated with a file descriptor.
 // This can only be used to remove rights, and returns `errno::notcapable` if called in a way that would attempt to add rights
-func FdFdstatSetRights(fd Fd, fsRightsBase Rights, fsRightsInheriting Rights) (Errno) {
+func FdFdstatSetRights(fd Fd, fsRightsBase Rights, fsRightsInheriting Rights) Errno {
 }
 
 // Return the attributes of an open file.
@@ -82,12 +84,12 @@ func FdFilestatGet(fd Fd) (Filestat, Errno) {
 
 // Adjust the size of an open file. If this increases the file's size, the extra bytes are filled with zeros.
 // Note: This is similar to `ftruncate` in POSIX.
-func FdFilestatSetSize(fd Fd, size Filesize) (Errno) {
+func FdFilestatSetSize(fd Fd, size Filesize) Errno {
 }
 
 // Adjust the timestamps of an open file or directory.
 // Note: This is similar to `futimens` in POSIX.
-func FdFilestatSetTimes(fd Fd, atim Timestamp, mtim Timestamp, fstFlags Fstflags) (Errno) {
+func FdFilestatSetTimes(fd Fd, atim Timestamp, mtim Timestamp, fstFlags Fstflags) Errno {
 }
 
 // Read from a file descriptor, without using and updating the file descriptor's offset.
@@ -100,12 +102,12 @@ func FdPrestatGet(fd Fd) (Prestat, Errno) {
 }
 
 // Return a description of the given preopened file descriptor.
-func FdPrestatDirName(fd Fd, path *uint8, pathLen Size) (Errno) {
+func FdPrestatDirName(fd Fd, path *uint8, pathLen Size) Errno {
 }
 
 // Write to a file descriptor, without using and updating the file descriptor's offset.
 // Note: This is similar to `pwritev` in Linux (and other Unix-es).
-// 
+//
 // Like Linux (and other Unix-es), any calls of `pwrite` (and other
 // functions to read or write) for a regular file by other threads in the
 // WASI process should not be interleaved while `pwrite` is executed.
@@ -126,7 +128,7 @@ func FdRead(fd Fd, iovs IovecArray) (Size, Errno) {
 // truncating the last directory entry. This allows the caller to grow its
 // read buffer size in case it's too small to fit a single large directory
 // entry, or skip the oversized directory entry.
-// 
+//
 // Entries for the special `.` and `..` directory entries are included in the
 // sequence.
 func FdReaddir(fd Fd, buf *uint8, bufLen Size, cookie Dircookie) (Size, Errno) {
@@ -140,7 +142,7 @@ func FdReaddir(fd Fd, buf *uint8, bufLen Size, cookie Dircookie) (Size, Errno) {
 // thread at the same time.
 // This function provides a way to atomically renumber file descriptors, which
 // would disappear if `dup2()` were to be removed entirely.
-func FdRenumber(fd Fd, to Fd) (Errno) {
+func FdRenumber(fd Fd, to Fd) Errno {
 }
 
 // Move the offset of a file descriptor.
@@ -150,7 +152,7 @@ func FdSeek(fd Fd, offset Filedelta, whence Whence) (Filesize, Errno) {
 
 // Synchronize the data and metadata of a file to disk.
 // Note: This is similar to `fsync` in POSIX.
-func FdSync(fd Fd) (Errno) {
+func FdSync(fd Fd) Errno {
 }
 
 // Return the current offset of a file descriptor.
@@ -160,7 +162,7 @@ func FdTell(fd Fd) (Filesize, Errno) {
 
 // Write to a file descriptor.
 // Note: This is similar to `writev` in POSIX.
-// 
+//
 // Like POSIX, any calls of `write` (and other functions to read or write)
 // for a regular file by other threads in the WASI process should not be
 // interleaved while `write` is executed.
@@ -169,7 +171,7 @@ func FdWrite(fd Fd, iovs CiovecArray) (Size, Errno) {
 
 // Create a directory.
 // Note: This is similar to `mkdirat` in POSIX.
-func PathCreateDirectory(fd Fd, path string) (Errno) {
+func PathCreateDirectory(fd Fd, path string) Errno {
 }
 
 // Return the attributes of a file or directory.
@@ -179,12 +181,12 @@ func PathFilestatGet(fd Fd, flags Lookupflags, path string) (Filestat, Errno) {
 
 // Adjust the timestamps of a file or directory.
 // Note: This is similar to `utimensat` in POSIX.
-func PathFilestatSetTimes(fd Fd, flags Lookupflags, path string, atim Timestamp, mtim Timestamp, fstFlags Fstflags) (Errno) {
+func PathFilestatSetTimes(fd Fd, flags Lookupflags, path string, atim Timestamp, mtim Timestamp, fstFlags Fstflags) Errno {
 }
 
 // Create a hard link.
 // Note: This is similar to `linkat` in POSIX.
-func PathLink(oldFd Fd, oldFlags Lookupflags, oldPath string, newFd Fd, newPath string) (Errno) {
+func PathLink(oldFd Fd, oldFlags Lookupflags, oldPath string, newFd Fd, newPath string) Errno {
 }
 
 // Open a file or directory.
@@ -207,27 +209,27 @@ func PathReadlink(fd Fd, path string, buf *uint8, bufLen Size) (Size, Errno) {
 // Remove a directory.
 // Return `errno::notempty` if the directory is not empty.
 // Note: This is similar to `unlinkat(fd, path, AT_REMOVEDIR)` in POSIX.
-func PathRemoveDirectory(fd Fd, path string) (Errno) {
+func PathRemoveDirectory(fd Fd, path string) Errno {
 }
 
 // Rename a file or directory.
 // Note: This is similar to `renameat` in POSIX.
-func PathRename(fd Fd, oldPath string, newFd Fd, newPath string) (Errno) {
+func PathRename(fd Fd, oldPath string, newFd Fd, newPath string) Errno {
 }
 
 // Create a symbolic link.
 // Note: This is similar to `symlinkat` in POSIX.
-func PathSymlink(oldPath string, fd Fd, newPath string) (Errno) {
+func PathSymlink(oldPath string, fd Fd, newPath string) Errno {
 }
 
 // Unlink a file.
 // Return `errno::isdir` if the path refers to a directory.
 // Note: This is similar to `unlinkat(fd, path, 0)` in POSIX.
-func PathUnlinkFile(fd Fd, path string) (Errno) {
+func PathUnlinkFile(fd Fd, path string) Errno {
 }
 
 // Concurrently poll for the occurrence of a set of events.
-// 
+//
 // If `nsubscriptions` is 0, returns `errno::inval`.
 func PollOneoff(in *Subscription, out *Event, nsubscriptions Size) (Size, Errno) {
 }
@@ -240,18 +242,18 @@ func ProcExit(rval Exitcode) {
 
 // Send a signal to the process of the calling thread.
 // Note: This is similar to `raise` in POSIX.
-func ProcRaise(sig Signal) (Errno) {
+func ProcRaise(sig Signal) Errno {
 }
 
 // Temporarily yield execution of the calling thread.
 // Note: This is similar to `sched_yield` in POSIX.
-func SchedYield() (Errno) {
+func SchedYield() Errno {
 }
 
 // Write high-quality random data into a buffer.
 // This function blocks when the implementation is unable to immediately
 // provide sufficient high-quality random data.
-func RandomGet(buf *uint8, bufLen Size) (Errno) {
+func RandomGet(buf *uint8, bufLen Size) Errno {
 }
 
 // Accept a new incoming connection.
@@ -273,6 +275,5 @@ func SockSend(fd Fd, siData CiovecArray, siFlags Siflags) (Size, Errno) {
 
 // Shut down socket send and receive channels.
 // Note: This is similar to `shutdown` in POSIX.
-func SockShutdown(fd Fd, how Sdflags) (Errno) {
+func SockShutdown(fd Fd, how Sdflags) Errno {
 }
-

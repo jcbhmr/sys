@@ -3,8 +3,6 @@
         "bytecodealliance.wit-idl",
         "tinygo.vscode-tinygo",
         "jedisct1.witx",
-        "golang.go",
-        "rust-lang.rust-analyzer",
-        "tamasfe.even-better-toml"
+        "golang.go"
     ]
 }
