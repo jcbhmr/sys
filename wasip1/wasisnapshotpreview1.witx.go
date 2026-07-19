@@ -127,46 +127,46 @@ func FdWrite(fd Fd, iovs CiovecArray) (r0 Size, errno Errno) {
 }
 
 func PathCreateDirectory(fd Fd, path string) Errno {
-	return Errno(wasmimport_path_create_directory(fd, unsafe.StringData(path), uintptr(len(path))))
+	return Errno(wasmimport_path_create_directory(fd, path))
 }
 
 func PathFilestatGet(fd Fd, flags Lookupflags, path string) (r0 Filestat, errno Errno) {
-	errno = Errno(wasmimport_path_filestat_get(fd, flags, unsafe.StringData(path), uintptr(len(path)), &r0))
+	errno = Errno(wasmimport_path_filestat_get(fd, flags, path, &r0))
 	return r0, errno
 }
 
 func PathFilestatSetTimes(fd Fd, flags Lookupflags, path string, atim Timestamp, mtim Timestamp, fstFlags Fstflags) Errno {
-	return Errno(wasmimport_path_filestat_set_times(fd, flags, unsafe.StringData(path), uintptr(len(path)), atim, mtim, uint32(fstFlags)))
+	return Errno(wasmimport_path_filestat_set_times(fd, flags, path, atim, mtim, uint32(fstFlags)))
 }
 
 func PathLink(oldFd Fd, oldFlags Lookupflags, oldPath string, newFd Fd, newPath string) Errno {
-	return Errno(wasmimport_path_link(oldFd, oldFlags, unsafe.StringData(oldPath), uintptr(len(oldPath)), newFd, unsafe.StringData(newPath), uintptr(len(newPath))))
+	return Errno(wasmimport_path_link(oldFd, oldFlags, oldPath, newFd, newPath))
 }
 
 func PathOpen(fd Fd, dirflags Lookupflags, path string, oflags Oflags, fsRightsBase Rights, fsRightsInheriting Rights, fdflags Fdflags) (r0 Fd, errno Errno) {
-	errno = Errno(wasmimport_path_open(fd, dirflags, unsafe.StringData(path), uintptr(len(path)), uint32(oflags), fsRightsBase, fsRightsInheriting, uint32(fdflags), &r0))
+	errno = Errno(wasmimport_path_open(fd, dirflags, path, uint32(oflags), fsRightsBase, fsRightsInheriting, uint32(fdflags), &r0))
 	return r0, errno
 }
 
 func PathReadlink(fd Fd, path string, buf *uint8, bufLen Size) (r0 Size, errno Errno) {
-	errno = Errno(wasmimport_path_readlink(fd, unsafe.StringData(path), uintptr(len(path)), buf, bufLen, &r0))
+	errno = Errno(wasmimport_path_readlink(fd, path, buf, bufLen, &r0))
 	return r0, errno
 }
 
 func PathRemoveDirectory(fd Fd, path string) Errno {
-	return Errno(wasmimport_path_remove_directory(fd, unsafe.StringData(path), uintptr(len(path))))
+	return Errno(wasmimport_path_remove_directory(fd, path))
 }
 
 func PathRename(fd Fd, oldPath string, newFd Fd, newPath string) Errno {
-	return Errno(wasmimport_path_rename(fd, unsafe.StringData(oldPath), uintptr(len(oldPath)), newFd, unsafe.StringData(newPath), uintptr(len(newPath))))
+	return Errno(wasmimport_path_rename(fd, oldPath, newFd, newPath))
 }
 
 func PathSymlink(oldPath string, fd Fd, newPath string) Errno {
-	return Errno(wasmimport_path_symlink(unsafe.StringData(oldPath), uintptr(len(oldPath)), fd, unsafe.StringData(newPath), uintptr(len(newPath))))
+	return Errno(wasmimport_path_symlink(oldPath, fd, newPath))
 }
 
 func PathUnlinkFile(fd Fd, path string) Errno {
-	return Errno(wasmimport_path_unlink_file(fd, unsafe.StringData(path), uintptr(len(path))))
+	return Errno(wasmimport_path_unlink_file(fd, path))
 }
 
 func PollOneoff(in *Subscription, out *Event, nsubscriptions Size) (r0 Size, errno Errno) {

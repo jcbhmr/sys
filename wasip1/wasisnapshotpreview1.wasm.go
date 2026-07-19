@@ -102,43 +102,43 @@ func wasmimport_fd_write(fd Fd, iovsData *Ciovec, iovsLen uintptr, rp0 *Size) ui
 
 //go:wasmimport wasi_snapshot_preview1 path_create_directory
 //go:noescape
-func wasmimport_path_create_directory(fd Fd, pathData *byte, pathLen uintptr) uint32
+func wasmimport_path_create_directory(fd Fd, path string) uint32
 
 //go:wasmimport wasi_snapshot_preview1 path_filestat_get
 //go:noescape
-func wasmimport_path_filestat_get(fd Fd, flags Lookupflags, pathData *byte, pathLen uintptr, rp0 *Filestat) uint32
+func wasmimport_path_filestat_get(fd Fd, flags Lookupflags, path string, rp0 *Filestat) uint32
 
 //go:wasmimport wasi_snapshot_preview1 path_filestat_set_times
 //go:noescape
-func wasmimport_path_filestat_set_times(fd Fd, flags Lookupflags, pathData *byte, pathLen uintptr, atim Timestamp, mtim Timestamp, fstFlags uint32) uint32
+func wasmimport_path_filestat_set_times(fd Fd, flags Lookupflags, path string, atim Timestamp, mtim Timestamp, fstFlags uint32) uint32
 
 //go:wasmimport wasi_snapshot_preview1 path_link
 //go:noescape
-func wasmimport_path_link(oldFd Fd, oldFlags Lookupflags, oldPathData *byte, oldPathLen uintptr, newFd Fd, newPathData *byte, newPathLen uintptr) uint32
+func wasmimport_path_link(oldFd Fd, oldFlags Lookupflags, oldPath string, newFd Fd, newPath string) uint32
 
 //go:wasmimport wasi_snapshot_preview1 path_open
 //go:noescape
-func wasmimport_path_open(fd Fd, dirflags Lookupflags, pathData *byte, pathLen uintptr, oflags uint32, fsRights Rights, fsRightsInheriting Rights, fdflags uint32, rp0 *Fd) uint32
+func wasmimport_path_open(fd Fd, dirflags Lookupflags, path string, oflags uint32, fsRights Rights, fsRightsInheriting Rights, fdflags uint32, rp0 *Fd) uint32
 
 //go:wasmimport wasi_snapshot_preview1 path_readlink
 //go:noescape
-func wasmimport_path_readlink(fd Fd, pathData *byte, pathLen uintptr, buf *uint8, bufLen Size, rp0 *Size) uint32
+func wasmimport_path_readlink(fd Fd, path string, buf *uint8, bufLen Size, rp0 *Size) uint32
 
 //go:wasmimport wasi_snapshot_preview1 path_remove_directory
 //go:noescape
-func wasmimport_path_remove_directory(fd Fd, pathData *byte, pathLen uintptr) uint32
+func wasmimport_path_remove_directory(fd Fd, path string) uint32
 
 //go:wasmimport wasi_snapshot_preview1 path_rename
 //go:noescape
-func wasmimport_path_rename(fd Fd, oldPathData *byte, oldPathLen uintptr, newFd Fd, newPathData *byte, newPathLen uintptr) uint32
+func wasmimport_path_rename(fd Fd, oldPath string, newFd Fd, newPath string) uint32
 
 //go:wasmimport wasi_snapshot_preview1 path_symlink
 //go:noescape
-func wasmimport_path_symlink(oldPathData *byte, oldPathLen uintptr, fd Fd, newPathData *byte, newPathLen uintptr) uint32
+func wasmimport_path_symlink(oldPath string, fd Fd, newPath string) uint32
 
 //go:wasmimport wasi_snapshot_preview1 path_unlink_file
 //go:noescape
-func wasmimport_path_unlink_file(fd Fd, pathData *byte, pathLen uintptr) uint32
+func wasmimport_path_unlink_file(fd Fd, path string) uint32
 
 //go:wasmimport wasi_snapshot_preview1 poll_oneoff
 //go:noescape
