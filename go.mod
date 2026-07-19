@@ -1,6 +1,8 @@
 module go.jcbhmr.com/sys
 
-go 1.26.4
+go 1.25.0
+
+toolchain go1.26.5
 
 tool go.bytecodealliance.org/cmd/wit-bindgen-go
 

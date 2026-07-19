@@ -1,6 +1,11 @@
+//go:build wasip1 && wasm32
+
 package wasip1
 
-import "unsafe"
+import (
+	"structs"
+	"unsafe"
+)
 
 type Size = uint32
 
@@ -100,83 +105,83 @@ const (
 )
 
 var errnoNames = [...]string{
-    "success",
-    "2big",
-    "acces",
-    "addrinuse",
-    "addrnotavail",
-    "afnosupport",
-    "again",
-    "already",
-    "badf",
-    "badmsg",
-    "busy",
-    "canceled",
-    "child",
-    "connaborted",
-    "connrefused",
-    "connreset",
-    "deadlk",
-    "destaddrreq",
-    "dom",
-    "dquot",
-    "exist",
-    "fault",
-    "fbig",
-    "hostunreach",
-    "idrm",
-    "ilseq",
-    "inprogress",
-    "intr",
-    "inval",
-    "io",
-    "isconn",
-    "isdir",
-    "loop",
-    "mfile",
-    "mlink",
-    "msgsize",
-    "multihop",
-    "nametoolong",
-    "netdown",
-    "netreset",
-    "netunreach",
-    "nfile",
-    "nobufs",
-    "nodev",
-    "noent",
-    "noexec",
-    "nolck",
-    "nolink",
-    "nomem",
-    "nomsg",
-    "noprotoopt",
-    "nospc",
-    "nosys",
-    "notconn",
-    "notdir",
-    "notempty",
-    "notrecoverable",
-    "notsock",
-    "notsup",
-    "notty",
-    "nxio",
-    "overflow",
-    "ownerdead",
-    "perm",
-    "pipe",
-    "proto",
-    "protonosupport",
-    "prototype",
-    "range",
-    "rofs",
-    "spipe",
-    "srch",
-    "stale",
-    "timedout",
-    "txtbsy",
-    "xdev",
-    "notcapable",
+	"success",
+	"2big",
+	"acces",
+	"addrinuse",
+	"addrnotavail",
+	"afnosupport",
+	"again",
+	"already",
+	"badf",
+	"badmsg",
+	"busy",
+	"canceled",
+	"child",
+	"connaborted",
+	"connrefused",
+	"connreset",
+	"deadlk",
+	"destaddrreq",
+	"dom",
+	"dquot",
+	"exist",
+	"fault",
+	"fbig",
+	"hostunreach",
+	"idrm",
+	"ilseq",
+	"inprogress",
+	"intr",
+	"inval",
+	"io",
+	"isconn",
+	"isdir",
+	"loop",
+	"mfile",
+	"mlink",
+	"msgsize",
+	"multihop",
+	"nametoolong",
+	"netdown",
+	"netreset",
+	"netunreach",
+	"nfile",
+	"nobufs",
+	"nodev",
+	"noent",
+	"noexec",
+	"nolck",
+	"nolink",
+	"nomem",
+	"nomsg",
+	"noprotoopt",
+	"nospc",
+	"nosys",
+	"notconn",
+	"notdir",
+	"notempty",
+	"notrecoverable",
+	"notsock",
+	"notsup",
+	"notty",
+	"nxio",
+	"overflow",
+	"ownerdead",
+	"perm",
+	"pipe",
+	"proto",
+	"protonosupport",
+	"prototype",
+	"range",
+	"rofs",
+	"spipe",
+	"srch",
+	"stale",
+	"timedout",
+	"txtbsy",
+	"xdev",
+	"notcapable",
 }
 
 func (e Errno) String() string {
@@ -225,11 +230,13 @@ const (
 type Fd = uint32
 
 type Iovec struct {
+	_ structs.HostLayout
 	Buf    *uint8
 	BufLen Size
 }
 
 type Ciovec struct {
+	_ structs.HostLayout
 	Buf    *uint8
 	BufLen Size
 }
@@ -268,6 +275,7 @@ const (
 )
 
 type Dirent struct {
+	_ structs.HostLayout
 	DNext   Dircookie
 	DIno    Inode
 	DNamlen Dirnamlen
@@ -296,6 +304,7 @@ const (
 )
 
 type Fdstat struct {
+	_ structs.HostLayout
 	FsFiletype         Filetype
 	FsFlags            Fdflags
 	FsRightsBase       Rights
@@ -331,6 +340,7 @@ const (
 type Linkcount = uint64
 
 type Filestat struct {
+	_ structs.HostLayout
 	Dev      Device
 	Ino      Inode
 	Filetype Filetype
@@ -358,11 +368,13 @@ const (
 )
 
 type EventFdReadwrite struct {
+	_ structs.HostLayout
 	Nbytes Filesize
 	Flags  Eventrwflags
 }
 
 type Event struct {
+	_ structs.HostLayout
 	Userdata    Userdata
 	Error       Errno
 	Type        Eventtype
@@ -376,6 +388,7 @@ const (
 )
 
 type SubscriptionClock struct {
+	_ structs.HostLayout
 	Id        Clockid
 	Timeout   Timestamp
 	Precision Timestamp
@@ -383,10 +396,12 @@ type SubscriptionClock struct {
 }
 
 type SubscriptionFdReadwrite struct {
+	_ structs.HostLayout
 	FileDescriptor Fd
 }
 
 type SubscriptionU struct {
+	_ structs.HostLayout
 	Tag  Eventtype
 	Data [max(
 		unsafe.Sizeof(SubscriptionClock{}),
@@ -417,6 +432,7 @@ func (u *SubscriptionU) FdWrite() *SubscriptionFdReadwrite {
 }
 
 type Subscription struct {
+	_ structs.HostLayout
 	Userdata Userdata
 	U        SubscriptionU
 }
@@ -488,10 +504,12 @@ const (
 )
 
 type PrestatDir struct {
+	_ structs.HostLayout
 	PrNameLen Size
 }
 
 type Prestat struct {
+	_ structs.HostLayout
 	Tag  Preopentype
 	Data [max(
 		unsafe.Sizeof(PrestatDir{}),
