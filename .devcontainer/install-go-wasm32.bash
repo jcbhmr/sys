@@ -13,7 +13,7 @@ cleanup() {
 trap cleanup SIGINT SIGTERM ERR EXIT
 
 git clone https://github.com/Zxilly/go.git Zxilly-go
-pushd go
+pushd Zxilly-go
 git switch feat/wasm32
 
 pushd src
@@ -31,7 +31,7 @@ echo 'exec ~/.local/share/Zxilly-go-wasm32/bin/go "$@"' >> ~/.local/bin/Zxilly-g
 chmod +x ~/.local/bin/Zxilly-go-wasm32
 
 git clone https://github.com/jellevandenhooff/go.git jellevandenhooff-go
-pushd go
+pushd jellevandenhooff-go
 git switch wasm32
 
 pushd src
