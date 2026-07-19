@@ -22,6 +22,17 @@ const (
 	ClockidThreadCputimeId
 )
 
+var clockidNames = [...]string{
+	"realtime",
+	"monotonic",
+	"process_cputime_id",
+	"thread_cputime_id",
+}
+
+func (e Clockid) String() string {
+	return clockidNames[e]
+}
+
 type Errno uint16
 
 const (
@@ -255,6 +266,16 @@ const (
 	WhenceEnd
 )
 
+var whenceNames = [...]string{
+	"set",
+	"cut",
+	"end",
+}
+
+func (e Whence) String() string {
+	return whenceNames[e]
+}
+
 type Dircookie = uint64
 
 type Dirnamlen = uint32
@@ -274,6 +295,21 @@ const (
 	FiletypeSymbolicLink
 )
 
+var filetypeNames = [...]string{
+	"unknown",
+	"block_device",
+	"character_device",
+	"directory",
+	"regular_file",
+	"socket_dgram",
+	"socket_stream",
+	"symbolic_link",
+}
+
+func (e Filetype) String() string {
+	return filetypeNames[e]
+}
+
 type Dirent struct {
 	_ structs.HostLayout
 	DNext   Dircookie
@@ -292,6 +328,19 @@ const (
 	AdviceDontneed
 	AdviceNoreuse
 )
+
+var adviceNames = [...]string{
+	"normal",
+	"sequential",
+	"random",
+	"willneed",
+	"dontneed",
+	"noreuse",
+}
+
+func (e Advice) String() string {
+	return adviceNames[e]
+}
 
 type Fdflags = uint16
 
@@ -360,6 +409,16 @@ const (
 	EventtypeFdRead
 	EventtypeFdWrite
 )
+
+var eventtypeNames = [...]string{
+	"clock",
+	"fd_read",
+	"fd_write",
+}
+
+func (e Eventtype) String() string {
+	return eventtypeNames[e]
+}
 
 type Eventrwflags = uint16
 
@@ -475,6 +534,44 @@ const (
 	SignalSys
 )
 
+var signalNames = [...]string{
+    "none",
+    "hup",
+    "int",
+    "quit",
+    "ill",
+    "trap",
+    "abrt",
+    "bus",
+    "fpe",
+    "kill",
+    "usr1",
+    "segv",
+    "usr2",
+    "pipe",
+    "alrm",
+    "term",
+    "chld",
+    "cont",
+    "stop",
+    "tstp",
+    "ttin",
+    "ttou",
+    "urg",
+    "xcpu",
+    "xfsz",
+    "vtalrm",
+    "prof",
+    "winch",
+    "poll",
+    "pwr",
+    "sys",
+}
+
+func (e Signal) String() string {
+	return signalNames[e]
+}
+
 type Riflags = uint16
 
 const (
@@ -502,6 +599,14 @@ type Preopentype uint8
 const (
 	PreopentypeDir Preopentype = iota
 )
+
+var preopentypeNames = [...]string{
+	"dir",
+}
+
+func (e Preopentype) String() string {
+	return preopentypeNames[e]
+}
 
 type PrestatDir struct {
 	_ structs.HostLayout
