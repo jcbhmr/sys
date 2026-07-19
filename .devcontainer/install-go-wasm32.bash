@@ -23,7 +23,8 @@ popd
 
 mkdir -p ~/.local/share
 rm -rf ~/.local/share/Zxilly-go-wasm32
-mv go ~/.local/share/Zxilly-go-wasm32
+rm -rf Zxilly-go/.git
+mv Zxilly-go ~/.local/share/Zxilly-go-wasm32
 mkdir -p ~/.local/bin
 echo '#!/usr/bin/env bash' > ~/.local/bin/Zxilly-go-wasm32
 echo 'export GOARCH=wasm32' >> ~/.local/bin/Zxilly-go-wasm32
@@ -41,7 +42,8 @@ popd
 
 mkdir -p ~/.local/share
 rm -rf ~/.local/share/jellevandenhooff-go-wasm32
-mv go ~/.local/share/jellevandenhooff-go-wasm32
+rm -rf jellevandenhooff-go/.git
+mv jellevandenhooff-go ~/.local/share/jellevandenhooff-go-wasm32
 mkdir -p ~/.local/bin
 echo '#!/usr/bin/env bash' > ~/.local/bin/jellevandenhooff-go-wasm32
 echo 'export GOARCH=wasm32' >> ~/.local/bin/jellevandenhooff-go-wasm32
