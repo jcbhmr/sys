@@ -1,7 +1,7 @@
 {
     "image": "mcr.microsoft.com/devcontainers/go",
     "updateContentCommand": {
-        "install-go-wasm32": "./.devcontainer/install-go-wasm32.bash",
+        "install-gowasm32": "./.devcontainer/install-gowasm32.bash",
         "install-wasmtime": "curl https://wasmtime.dev/install.sh -sSf | bash",
         "install-tinygo": "./.devcontainer/install-tinygo.bash",
         "install-wasm-tools": "./.devcontainer/install-wasm-tools.bash",
