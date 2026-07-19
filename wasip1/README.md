@@ -4,12 +4,6 @@
 - https://github.com/golang/go/issues/63131
 
 ```sh
-GOOS=wasip1 GOARCH=wasm32 Zxilly-go-wasm32-go test -c
-wasmtime wasip1.test
-```
-
-```sh
-# Doesn't work.
-GOOS=wasip1 GOARCH=wasm32 jellevandenhooff-go-wasm32-go test -c
+GOOS=wasip1 GOARCH=wasm32 gowasm32 test -c
 wasmtime wasip1.test
 ```
